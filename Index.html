@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    canvas {
+      border: 1px solid black;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="piVisualization" width="300" height="300"></canvas>
+
+  <script>
+    const canvas = document.getElementById('piVisualization');
+    const context = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = Math.min(centerX, centerY);
+
+    function drawPiVisualization(angle) {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw circle
+      context.beginPath();
+      context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+      context.stroke();
+
+      // Draw marker
+      const markerX = centerX + radius * Math.sin(angle);
+      const markerY = centerY - radius * Math.cos(angle);
+      context.beginPath();
+      context.moveTo(centerX, centerY);
+      context.lineTo(markerX, markerY);
+      context.stroke();
+    }
+
+    let currentAngle = 0;
+    const speed = 0.1; // Adjust the speed of rotation
+
+    function animate() {
+      drawPiVisualization(currentAngle);
+      currentAngle = (currentAngle + speed) % (2 * Math.PI);
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
